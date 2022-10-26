@@ -1,9 +1,9 @@
 #!/usr/bin/python3
 """ This module defines a class to manage a MySQL database """
-from sqlalchemy import create_engine, text
+from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
 from os import getenv
-from models.base_model import Base, BaseModel
+from models.base_model import Base
 
 
 class DBStorage():
