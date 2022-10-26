@@ -3,8 +3,7 @@
 import uuid
 from datetime import datetime
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, Integer, String, ForeignKey, DateTime
-
+from sqlalchemy import Column, String, DateTime
 
 Base = declarative_base()
 
@@ -28,7 +27,7 @@ class BaseModel:
                                                      '%Y-%m-%dT%H:%M:%S.%f')
             kwargs['created_at'] = datetime.strptime(kwargs['created_at'],
                                                      '%Y-%m-%dT%H:%M:%S.%f')
-            
+
             del kwargs['__class__']
             self.__dict__.update(kwargs)
 
@@ -52,8 +51,9 @@ class BaseModel:
                           (str(type(self)).split('.')[-1]).split('\'')[0]})
         dictionary['created_at'] = self.created_at.isoformat()
         dictionary['updated_at'] = self.updated_at.isoformat()
-        if dictionary['_sa_instance_state']:
-            del(dictionary['_sa_instance_state'])
+        key = '_sa_instance_state'
+        if key in dictionary.keys():
+            dictionary.pop(key)
         return dictionary
 
     def delete(self):
