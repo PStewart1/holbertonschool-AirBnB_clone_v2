@@ -3,6 +3,7 @@
 from email.policy import default
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String, ForeignKey, Integer, Float
+from sqlalchemy.orm import relationship
 
 
 class Place(BaseModel, Base):
@@ -20,3 +21,14 @@ class Place(BaseModel, Base):
     latitude = Column(Float, nullable=True)
     longitude = Column(Float, nullable=True)
     amenity_ids = []
+    reviews = relationship('Review', backref='place', cascade="all, delete")
+
+    @property
+    def reviews(self):
+        from models import storage, review
+        dics = storage.all(review.Review)
+        diclist = []
+        for v in dics.values():
+            if v.place_id == self.id:
+                diclist.append(v)
+        return diclist
