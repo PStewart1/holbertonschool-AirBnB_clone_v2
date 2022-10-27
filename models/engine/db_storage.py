@@ -26,14 +26,7 @@ class DBStorage():
         """ query on the current database session all objects
         depending of the class name
         """
-        # from models.city import City
-        # from models.state import State
-        # from sqlalchemy.orm import aliased
-        # self.__session = sessionmaker(bind=self.__engine)
-        # session = self.__session()
-        # conn = self.__engine.connect()
         dics = {}
-        # classname = aliased(cls)
         if cls is None:
             itemlist = self.__session.query().all()
         else:
@@ -41,8 +34,6 @@ class DBStorage():
         for item in itemlist:
             key = item.__class__.__name__ + "." + item.id
             delattr(item, '_sa_instance_state')
-            # if '_sa_instance_state' in item.keys():
-            #     item.pop('_sa_instance_state')
             dics.update({key: item})
         return dics
 
@@ -63,6 +54,7 @@ class DBStorage():
         """ create all tables in the database """
         from models.city import City
         from models.state import State
+        from models.user import User
         Base.metadata.create_all(self.__engine)
         session = sessionmaker(bind=self.__engine, expire_on_commit=False)
         self.__session = scoped_session(session)
