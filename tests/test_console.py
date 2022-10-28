@@ -3,8 +3,6 @@
 import unittest
 from unittest.mock import patch
 from io import StringIO
-# from models.base_model import BaseModel
-# from models import storage
 from console import HBNBCommand
 import os
 
@@ -15,6 +13,7 @@ class test_console(unittest.TestCase):
     # def setUp(self):
     #     """ Set up test environment """
     #     os.environ['HBNB_ENV'] = 'test'
+
     @classmethod
     def setUpClass(cls):
         """setup for the test"""
