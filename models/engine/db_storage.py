@@ -4,6 +4,12 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
 from os import getenv
 from models.base_model import Base
+from models.city import City
+from models.state import State
+from models.user import User
+from models.place import Place
+from models.review import Review
+from models.amenity import Amenity
 
 
 class DBStorage():
@@ -26,23 +32,6 @@ class DBStorage():
         """ query on the current database session all objects
         depending of the class name
         """
-        # dics = {}
-        # if cls is None:
-        #     itemlist = self.__session.query().all()
-        # else:
-        #     itemlist = self.__session.query(cls).all()
-        # for item in itemlist:
-        #     key = item.__class__.__name__ + "." + item.id
-        #     delattr(item, '_sa_instance_state')
-        #     dics.update({key: item})
-        # return dics
-        from models.user import User
-        from models.state import State
-        from models.city import City
-        from models.amenity import Amenity
-        from models.place import Place
-        from models.review import Review
-
         classes = {
             'User': User, 'Place': Place,
             'State': State, 'City': City,
@@ -76,12 +65,6 @@ class DBStorage():
 
     def reload(self):
         """ create all tables in the database """
-        from models.city import City
-        from models.state import State
-        from models.user import User
-        from models.place import Place
-        from models.review import Review
-        from models.amenity import Amenity
         Base.metadata.create_all(self.__engine)
         session = sessionmaker(bind=self.__engine, expire_on_commit=False)
         self.__session = scoped_session(session)
