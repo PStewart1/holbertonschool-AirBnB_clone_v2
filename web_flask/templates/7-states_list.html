@@ -5,16 +5,10 @@
     </HEAD>
     <BODY>
         <H1>States</H1>
-        <ul>
+        <UL>
         {% for states in sl.values() | sort(attribute="name") %}
-            <li>{{ states.id }}: <B>{{ states.name }}</B>
-                <!-- <ul>
-                {% for city in cl %}
-                    <li>{{ city.id }}: <B>{{ city.name }}</B></li>
-                {% endfor %}
-                </ul> -->
-            </li>
+            <LI>{{states.id}}: <B>{{states.name}}</B></LI>
         {% endfor %}
-        </ul>
+        </UL>
     </BODY>
 </HTML>
