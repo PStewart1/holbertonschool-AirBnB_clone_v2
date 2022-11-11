@@ -26,16 +26,40 @@ class DBStorage():
         """ query on the current database session all objects
         depending of the class name
         """
-        dics = {}
-        if cls is None:
-            itemlist = self.__session.query().all()
+        # dics = {}
+        # if cls is None:
+        #     itemlist = self.__session.query().all()
+        # else:
+        #     itemlist = self.__session.query(cls).all()
+        # for item in itemlist:
+        #     key = item.__class__.__name__ + "." + item.id
+        #     delattr(item, '_sa_instance_state')
+        #     dics.update({key: item})
+        # return dics
+        from models.user import User
+        from models.state import State
+        from models.city import City
+        from models.amenity import Amenity
+        from models.place import Place
+        from models.review import Review
+
+        classes = {
+            'User': User, 'Place': Place,
+            'State': State, 'City': City,
+            'Review': Review, 'Amenity': Amenity
+        }
+
+        object_dict = {}
+
+        if cls is not None:
+            for obj in self.__session.query(cls).all():
+                object_dict.update({f'{type(cls).__name__}.{obj.id}': obj})
         else:
-            itemlist = self.__session.query(cls).all()
-        for item in itemlist:
-            key = item.__class__.__name__ + "." + item.id
-            delattr(item, '_sa_instance_state')
-            dics.update({key: item})
-        return dics
+            for name in classes.values():
+                object_list = self.__session.query(name)
+                for obj in object_list:
+                    object_dict.update({f'{type(obj).__name__}.{obj.id}': obj})
+        return object_dict
 
     def new(self, obj):
         """ add the object to the current database session """
