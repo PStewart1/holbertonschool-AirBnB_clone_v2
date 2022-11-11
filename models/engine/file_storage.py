@@ -70,3 +70,7 @@ class FileStorage:
         if present:
             del(FileStorage.__objects[key])
             self.save()
+
+    def close(self):
+        """reloads the db from JSON"""
+        self.reload()

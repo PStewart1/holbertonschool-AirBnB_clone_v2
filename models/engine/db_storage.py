@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """ This module defines a class to manage a MySQL database """
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, scoped_session
+from sqlalchemy.orm import sessionmaker, scoped_session, session
 from os import getenv
 from models.base_model import Base
 
@@ -61,3 +61,7 @@ class DBStorage():
         Base.metadata.create_all(self.__engine)
         session = sessionmaker(bind=self.__engine, expire_on_commit=False)
         self.__session = scoped_session(session)
+
+    def close(self):
+        """closes the current session"""
+        self.__session.remove()
