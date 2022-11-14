@@ -20,7 +20,7 @@ class DBStorage():
     def __init__(self):
         """ Starts the engine, and drops existing tables if in test env """
         self.__engine = create_engine(
-            'mysql+mysqldb://{}:{}@{}/{}?charset=latin1'.format(
+            'mysql+mysqldb://{}:{}@{}/{}'.format(
                 getenv('HBNB_MYSQL_USER'), getenv('HBNB_MYSQL_PWD'),
                 getenv('HBNB_MYSQL_HOST'), getenv('HBNB_MYSQL_DB')),
             pool_pre_ping=True)
