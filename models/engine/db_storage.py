@@ -30,7 +30,7 @@ class DBStorage():
 
     def all(self, cls=None):
         """ query on the current database session all objects
-        depending of the class name
+        depending on the class name
         """
         classes = {
             'User': User, 'Place': Place,
@@ -42,12 +42,14 @@ class DBStorage():
 
         if cls is not None:
             for obj in self.__session.query(cls).all():
-                object_dict.update({f'{type(cls).__name__}.{obj.id}': obj})
+                object_dict.update(
+                    {'{}.{}'.format(type(cls).__name__, obj.id): obj})
         else:
             for name in classes.values():
                 object_list = self.__session.query(name)
                 for obj in object_list:
-                    object_dict.update({f'{type(obj).__name__}.{obj.id}': obj})
+                    object_dict.update(
+                        {'{}.{}'.format(type(obj).__name__, obj.id): obj})
         return object_dict
 
     def new(self, obj):
